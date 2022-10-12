@@ -1,0 +1,5 @@
+<svg height="1000" width="1000">
+<polygon points="200,10 250,190 160,210"  stroke="black" stroke-width="1" fill="blue"/>
+<rect x="10" y="10" width="50" height="75"  stroke="white" stroke-width="3" fill="purple"/>
+<line x1="650" y1="650" x2="800" y2="800" stroke="yellow" stroke-width="30"/>
+</svg>
