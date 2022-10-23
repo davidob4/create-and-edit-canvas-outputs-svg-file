@@ -1,4 +1,5 @@
 ﻿//VSCODE WINDOWS 11
+//David Ochinca-Beregoi
 using System;
 using System.Diagnostics;
 public class main{
