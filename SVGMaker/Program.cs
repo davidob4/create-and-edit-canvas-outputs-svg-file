@@ -2,39 +2,308 @@
 using System;
 using System.Diagnostics;
 public class main{
-    public HashSet<string> idHashSet = new HashSet<string>();
+    public static HashSet<string> idHashSet = new HashSet<string>();
     public static void Main(string[] args){
-        Canvas c1 = new Canvas(1000,1000);
+        Console.WriteLine("Input height and width of canvas");
+        int h11 = Int32.Parse(Console.ReadLine());
+        int w11 = Int32.Parse(Console.ReadLine());
+        Canvas c1 = new Canvas(h11,w11);
 
-        shapes s1 = new circle(40, 500, 500, "white", "3", "blue");
-        shapes s2 = new rectangle(10,10, 50, 75, "white", "3", "purple");
-        shapes s3 = new ellipse(50,30,70,70,"white", "3", "blue");
-        shapes s4 = new line(650, 650, 800, 800, "yellow", "30");
+        shapes tempShape = new shapes();
+        
+        while(true){
+            Console.WriteLine("Input 1 for adding shape\nInput 2 for deleting shape\nInput 3 for updating shape\nInput 9 to exit");
+            int x = Int32.Parse(Console.ReadLine());
+            if(x == 9){
+                File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                break;
+            } 
+            switch(x){
+                case 1:
+                    Console.WriteLine("Input 1 for circle\n2 for rectangle\n3 for ellipse\n4 for line\n5for polyline\n6 for polygon");
+                    int y = Int32.Parse(Console.ReadLine());
+                    switch(y){
+                        case 1:
+                            Console.WriteLine("Input: Radius, cx, cy, stroke, strokewidth, fill");
+                            int r = Int32.Parse(Console.ReadLine());
+                            int cx = Int32.Parse(Console.ReadLine());
+                            int cy = Int32.Parse(Console.ReadLine());
+                            string str = Console.ReadLine();
+                            string strw = Console.ReadLine();
+                            string fill1 = Console.ReadLine();
+                            tempShape = new circle(r,cx,cy,str,strw,fill1);
+                            Console.WriteLine("ShapeID of shape added: " + tempShape.getID());
+                            c1.addShape(tempShape);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                            
+                        break;
+                        case 2:
+                            Console.WriteLine("Input: x, y, width, height, stroke, strokewidth, fill");
+                            cx = Int32.Parse(Console.ReadLine());
+                            cy = Int32.Parse(Console.ReadLine());
+                            int w = Int32.Parse(Console.ReadLine());
+                            int h = Int32.Parse(Console.ReadLine());
+                            str = Console.ReadLine();
+                            strw = Console.ReadLine();
+                            fill1 = Console.ReadLine();
+                            tempShape = new rectangle(cx,cy,w,h,str,strw,fill1);
+                            Console.WriteLine("ShapeID of shape added: " + tempShape.getID());
+                            c1.addShape(tempShape);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                        break;
+                        case 3:
+                            Console.WriteLine("Input: rx, ry, cx, cy, stroke, strokewidth, fill");
+                            int rx = Int32.Parse(Console.ReadLine());
+                            int ry = Int32.Parse(Console.ReadLine());
+                            cx = Int32.Parse(Console.ReadLine());
+                            cy = Int32.Parse(Console.ReadLine());
+                            str = Console.ReadLine();
+                            strw = Console.ReadLine();
+                            fill1 = Console.ReadLine();
+                            tempShape = new ellipse(rx,ry,cx,cy,str,strw,fill1);
+                            Console.WriteLine("ShapeID of shape added: " + tempShape.getID());
+                            c1.addShape(tempShape);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                        break;
+                        case 4:
+                            Console.WriteLine("Input: x1, y1, x2, y2, stroke, strokewidth");
+                            rx = Int32.Parse(Console.ReadLine());
+                            ry = Int32.Parse(Console.ReadLine());
+                            cx = Int32.Parse(Console.ReadLine());
+                            cy = Int32.Parse(Console.ReadLine());
+                            str = Console.ReadLine();
+                            strw = Console.ReadLine();
+                            tempShape = new line(rx,ry,cx,cy,str,strw);
+                            Console.WriteLine("ShapeID of shape added: " + tempShape.getID());
+                            c1.addShape(tempShape);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                        break;
+                        case 5:
+                            Console.WriteLine("Input: stroke, strokewidth");
+                            string st = Console.ReadLine();
+                            string stw = Console.ReadLine();
+
+                            List<line> l = new List<line>();
+
+                            Console.WriteLine("Input: x1, y1, x2, y2, of every line you want");
+                            while(true){
+                                Console.WriteLine("x1: ");
+                                int x1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y1: ");
+                                int y1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("x2: ");
+                                int x2 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y2: ");
+                                int y2 = Int32.Parse(Console.ReadLine());
+                                line tempLine = new line(x1, y1, x2, y2, st, stw);
+                                l.Add(tempLine);
+                                Console.WriteLine("Input: 9 to exit, 1 to continue");
+                                int t = Int32.Parse(Console.ReadLine());
+                                if(t == 9){
+                                    break;
+                                }
+                                Console.WriteLine("Next Line!");
+                            }
+                            tempShape = new polyLine(l, st, stw);
+                            Console.WriteLine("ShapeID of shape added: " + tempShape.getID());
+                            c1.addShape(tempShape);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                        break;
+                        case 6:
+                            Console.WriteLine("Input: stroke, strokewidth, fill");
+                            string st2 = Console.ReadLine();
+                            string stw2 = Console.ReadLine();
+                            string fill = Console.ReadLine();
+
+                            List<line> l2 = new List<line>();
+
+                            Console.WriteLine("Input: x1, y1, x2, y2, of every line you want");
+                            while(true){
+                                Console.WriteLine("x1: ");
+                                int x1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y1: ");
+                                int y1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("x2: ");
+                                int x2 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y2: ");
+                                int y2 = Int32.Parse(Console.ReadLine());
+                                line tempLine1 = new line(x1, y1, x2, y2, st2, stw2);
+                                l2.Add(tempLine1);
+                                Console.WriteLine("Input: 9 to exit, 1 to continue");
+                                int t = Int32.Parse(Console.ReadLine());
+                                if(t == 9){
+                                    break;
+                                }
+                                Console.WriteLine("Next Line!");
+                            }
+                            tempShape = new polyGon(l2, st2, stw2, fill);
+                            Console.WriteLine("ShapeID of shape added: " + tempShape.getID());
+                            c1.addShape(tempShape);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());                        
+                        break;
+                    }
+
+                break;
+                case 2:
+                    Console.WriteLine("Input 1 to delete by Z Index \n Input 2 to delete by shapeID");
+                    int tt = Int32.Parse(Console.ReadLine());
+                    switch(tt){
+                        case 1:
+                            Console.WriteLine("Input the Z index for deletion");
+                            tt = Int32.Parse(Console.ReadLine());
+                            c1.removeShape(tt);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());   
+                        break;
+                        case 2:
+                            Console.WriteLine("Input the shapeID for deletion");
+                            string[] idHashSetARR = new string[idHashSet.Count];
+                            idHashSetARR = idHashSet.ToArray<string>();
+                            for(int i = 0; i < idHashSet.Count; i++){
+                                Console.WriteLine(idHashSetARR[i]);
+                            }
+
+                            string idtemp = Console.ReadLine();
+                            c1.removeShape(idtemp);
+                            File.WriteAllTextAsync("fin.svg", c1.getSVG());   
+                        break;
+                    }
+                break;
+                case 3:
+                    Console.WriteLine("Input ShapeID to be updated");
+                    string hh = Console.ReadLine();
 
 
-        c1.addShape(s1);
-        c1.addShape(s2);
-        c1.addShape(s3);
-        c1.addShape(s4);
+                    Console.WriteLine("Input 1 for circle\n2 for rectangle\n3 for ellipse\n4 for line\n5for polyline\n6 for polygon");
+                    int uy = Int32.Parse(Console.ReadLine());
 
-        c1.removeShape(s3.getID());
+                    switch(uy){
+                        case 1:
+                            Console.WriteLine("Input: Radius, cx, cy, stroke, strokewidth, fill");
+                            int r = Int32.Parse(Console.ReadLine());
+                            int cx = Int32.Parse(Console.ReadLine());
+                            int cy = Int32.Parse(Console.ReadLine());
+                            string str = Console.ReadLine();
+                            string strw = Console.ReadLine();
+                            string fill1 = Console.ReadLine();
+                            tempShape = new circle(r,cx,cy,str,strw,fill1); 
+                        break;
+                        case 2:
+                            Console.WriteLine("Input: x, y, width, height, stroke, strokewidth, fill");
+                            cx = Int32.Parse(Console.ReadLine());
+                            cy = Int32.Parse(Console.ReadLine());
+                            int w = Int32.Parse(Console.ReadLine());
+                            int h = Int32.Parse(Console.ReadLine());
+                            str = Console.ReadLine();
+                            strw = Console.ReadLine();
+                            fill1 = Console.ReadLine();
+                            tempShape = new rectangle(cx,cy,w,h,str,strw,fill1);
+                            
+                        break;
+                        case 3:
+                            Console.WriteLine("Input: rx, ry, cx, cy, stroke, strokewidth, fill");
+                            int rx = Int32.Parse(Console.ReadLine());
+                            int ry = Int32.Parse(Console.ReadLine());
+                            cx = Int32.Parse(Console.ReadLine());
+                            cy = Int32.Parse(Console.ReadLine());
+                            str = Console.ReadLine();
+                            strw = Console.ReadLine();
+                            fill1 = Console.ReadLine();
+                            tempShape = new ellipse(rx,ry,cx,cy,str,strw,fill1);
+                            
+                        break;
+                        case 4:
+                            Console.WriteLine("Input: x1, y1, x2, y2, stroke, strokewidth");
+                            rx = Int32.Parse(Console.ReadLine());
+                            ry = Int32.Parse(Console.ReadLine());
+                            cx = Int32.Parse(Console.ReadLine());
+                            cy = Int32.Parse(Console.ReadLine());
+                            str = Console.ReadLine();
+                            strw = Console.ReadLine();
+                            tempShape = new line(rx,ry,cx,cy,str,strw);
+                            
+                        break;
+                        case 5:
+                            Console.WriteLine("Input: stroke, strokewidth");
+                            string st = Console.ReadLine();
+                            string stw = Console.ReadLine();
 
-        c1.updateShape(s1.getID(), new polyGon());
+                            List<line> l = new List<line>();
 
-        File.WriteAllTextAsync("fin.svg", c1.getSVG());
+                            Console.WriteLine("Input: x1, y1, x2, y2, of every line you want");
+                            while(true){
+                                Console.WriteLine("Input: 9 to exit, 1 to continue");
+                                int t = Int32.Parse(Console.ReadLine());
+                                if(x == 9) break;
+                                Console.WriteLine("x1: ");
+                                int x1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y1: ");
+                                int y1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("x2: ");
+                                int x2 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y2: ");
+                                int y2 = Int32.Parse(Console.ReadLine());
+                                line tempLine = new line(x1, y1, x2, y2, st, stw);
+                                l.Add(tempLine);
+                                Console.WriteLine("Input: 9 to exit, 1 to continue");
+                                t = Int32.Parse(Console.ReadLine());
+                                    if(t == 9){
+                                    break;
+                                }
+                                Console.WriteLine("Next Line!");
+                            }
+                            tempShape = new polyLine(l, st, stw);
+                            
+                        break;
+                        case 6:
+                            Console.WriteLine("Input: stroke, strokewidth, fill");
+                            string st2 = Console.ReadLine();
+                            string stw2 = Console.ReadLine();
+                            string fill = Console.ReadLine();
+
+                            List<line> l2 = new List<line>();
+
+                            Console.WriteLine("Input: x1, y1, x2, y2, of every line you want");
+                            while(true){
+                                Console.WriteLine("x1: ");
+                                int x1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y1: ");
+                                int y1 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("x2: ");
+                                int x2 = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine("y2: ");
+                                int y2 = Int32.Parse(Console.ReadLine());
+                                line tempLine1 = new line(x1, y1, x2, y2, st2, stw2);
+                                l2.Add(tempLine1);
+                                Console.WriteLine("Input: 9 to exit, 1 to continue");
+                                int t = Int32.Parse(Console.ReadLine());
+                                if(t == 9){
+                                    break;
+                                }
+                                Console.WriteLine("Next Line!");
+                            }
+                            tempShape = new polyGon(l2, st2, stw2, fill);
+                        break;
+                    }
+
+                    c1.updateShape(hh, tempShape);
+                    File.WriteAllTextAsync("fin.svg", c1.getSVG());  
+
+                break;
+            }
+
+        }
     }
 }
 
 class Canvas : main{
     private string svg;
     private int order = 0;
-    //Dictionary<int, shapes> elements = new Dictionary<string, shapes>();
     private List<shapes> els = new List<shapes>();
     private int width, height;
     public Canvas(int width, int height){
         this.width = width;
         this.height = height;
-        svg = "<svg height=\"" + this.height +"\"" + " width=\"" + this.width + "\"" + ">\n";
+        svg = "<svg height=\"" + this.height +"\"" + " width=\"" + this.width + "\"" + ">\n</svg>";
     }
 
     public void addShape(shapes s){
@@ -47,6 +316,18 @@ class Canvas : main{
         idHashSet.Remove(id);
         for(int i = 0; i < els.Count; i++){
             if(els[i].getID() == id){
+                els.RemoveAt(i);
+                order--;
+                break;
+            }
+        }
+        reBuildSvg(els);
+    }
+
+    public void removeShape(int index){
+        idHashSet.Remove(els[index - 1].getID());
+        for(int i = 0; i < els.Count; i++){
+            if(els[i].getID() == els[index - 1].getID()){
                 els.RemoveAt(i);
                 order--;
                 break;
@@ -91,7 +372,6 @@ class shapes{
     public virtual string getSVG(){    
         return "svg code";
     }
-
     public virtual string getID(){
         return "ID";
     }
